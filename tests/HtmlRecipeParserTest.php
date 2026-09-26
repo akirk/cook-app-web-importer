@@ -1,9 +1,24 @@
 <?php
 
 use CookAppWebImporter\HtmlRecipeParser;
+use CookApp\ImportService;
 use PHPUnit\Framework\TestCase;
 
 class HtmlRecipeParserTest extends TestCase {
+    public function test_registers_with_cook_app_and_handles_document_dispatch(): void {
+        $imports = ( new ReflectionClass( ImportService::class ) )->newInstanceWithoutConstructor();
+        $html = '<article itemscope itemtype="https://schema.org/Recipe">'
+            . '<h1 itemprop="name">Registered Microdata Recipe</h1>'
+            . '<meta itemprop="recipeIngredient" content="1 cup flour">'
+            . '<p itemprop="recipeInstructions">Mix well.</p>'
+            . '</article>';
+
+        $this->assertArrayHasKey( HtmlRecipeParser::SLUG, $imports->get_registered_parsers() );
+        $recipe = $imports->parse_document( 'https://example.com/recipe', 'text/html', $html );
+        $this->assertSame( 'Registered Microdata Recipe', $recipe['title'] );
+        $this->assertSame( 'flour', $recipe['ingredients'][0]['name'] );
+    }
+
     public function test_parses_schema_org_microdata(): void {
         $html = '<article itemscope itemtype="https://schema.org/Recipe">'
             . '<h1 itemprop="name">Microdata Soup</h1>'

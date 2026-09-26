@@ -19,3 +19,5 @@ Run the add-on's non-JSON-LD parser tests with:
 ```sh
 ../cook-app/vendor/bin/phpunit
 ```
+
+The test suite includes the parser behavior itself and the integration point that registers it with Cook App's `ImportService`.
