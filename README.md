@@ -2,7 +2,7 @@
 
 Adds webpage-oriented recipe parsers to [Cook App](https://github.com/akirk/cook-app).
 
-Cook App itself registers a minimal schema.org JSON-LD parser. This add-on registers the broader HTML parser, restoring support for schema.org microdata, WP Recipe Maker markup, heading-based ingredient groups, and explicit ingredient/instruction sections in webpage text.
+Cook App itself registers parsers for schema.org JSON-LD, Microdata, and RDFa. This add-on registers the broader HTML parser, restoring support for WP Recipe Maker markup, heading-based ingredient groups, and explicit ingredient/instruction sections in webpage text.
 
 ## Requirements
 

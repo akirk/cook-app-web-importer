@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Cook App Web Importer
- * Description: Adds HTML, microdata, and heuristic webpage parsing to Cook App's recipe importer.
+ * Description: Adds recipe-card HTML and heuristic webpage parsing to Cook App's recipe importer.
  * Version: 0.1.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
