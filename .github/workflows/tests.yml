@@ -1,0 +1,42 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['7.4', '8.4']
+
+    steps:
+      - name: Check out web importer
+        uses: actions/checkout@v4
+
+      - name: Check out Cook App
+        uses: actions/checkout@v4
+        with:
+          repository: akirk/cook-app
+          ref: feature/extensible-recipe-parsers
+          path: cook-app
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Cook App test dependencies
+        working-directory: cook-app
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run tests
+        env:
+          COOK_APP_TEST_PLUGIN_DIR: ${{ github.workspace }}/cook-app
+        run: cook-app/vendor/bin/phpunit -c phpunit.xml.dist
