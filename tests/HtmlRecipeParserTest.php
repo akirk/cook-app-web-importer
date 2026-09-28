@@ -11,12 +11,15 @@ class HtmlRecipeParserTest extends TestCase {
 
     public function test_registers_with_cook_app_and_handles_document_dispatch(): void {
         $imports = ( new ReflectionClass( ImportService::class ) )->newInstanceWithoutConstructor();
-        $html = $this->fixture( 'wprm-grouped-recipe.html' );
+        $html = $this->fixture( 'simplehomeedit-dijon-salmon-sections.html' );
 
         $this->assertArrayHasKey( HtmlRecipeParser::SLUG, $imports->get_registered_parsers() );
-        $recipe = $imports->parse_document( 'https://example.com/recipe', 'text/html', $html );
-        $this->assertSame( 'Grouped Recipe', $recipe['title'] );
-        $this->assertSame( 'Base', $recipe['parts'][0]['title'] );
+        $recipe = $imports->parse_document( 'https://simplehomeedit.com/recipe', 'text/html', $html );
+        $this->assertSame( 'Dijon Salmon and Crispy Potatoes', $recipe['title'] );
+        $this->assertSame( 'POTATOES', $recipe['parts'][0]['title'] );
+        $this->assertSame( 'SALMON', $recipe['parts'][1]['title'] );
+        $this->assertSame( 'CREAMY LEMON DILL SAUCE', $recipe['parts'][2]['title'] );
+        $this->assertSame( 'TO SERVE', $recipe['parts'][3]['title'] );
     }
 
     public function test_parses_wprm_ingredient_groups(): void {
